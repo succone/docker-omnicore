@@ -38,12 +38,12 @@ RUN set -ex \
     && chmod +x /usr/local/bin/gosu \
     && curl -sSL "https://github.com/OmniLayer/omnicore/releases/download/v${OMNICORE_VER}/omnicore-${OMNICORE_VER}-${OMNICORE_ARCH}-linux-gnu.tar.gz" | tar xz \
     && mv omnicore-${OMNICORE_VER} ${APP_NAME} \
-    && chown -R ${APP_USER}:${APP_GROUP} ${APP_NAME} \
+    && chown -R ${APP_USER}:${APP_GROUP} ${APP_NAME}
 
 VOLUME /data
 
 EXPOSE 8332
-
-COPY entrypoint.sh /entrypoint.sh
+WORKDIR $APP_DIR/omnicore
+COPY docker/docker-omnicore/entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["omnicored"]
